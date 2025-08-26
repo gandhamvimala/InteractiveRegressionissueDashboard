@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Regression Dashboard</title>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+</head>
+<body>
+    <h1>Console:Regression Issue Dashboard</h1>
+    <table border='1' cellpadding='5'>
+        <tr>
+            <th>Release</th>
+            <th>Total Reported</th>
+            <th>Fixed</th>
+            <th>Moved</th>
+            <th>Not Reproducible</th>
+            <th>QA on Hold</th>
+        </tr>
+        <tr>
+            <td>Feb 2025</td>
+            <td><input type='number' id='feb_total' value='13'></td>
+            <td><input type='number' id='feb_fixed' value='6'></td>
+            <td><input type='number' id='feb_moved' value='6'></td>
+            <td><input type='number' id='feb_not_repro' value='1'></td>
+            <td><input type='number' id='feb_qa_hold' value='0'></td>
+        </tr>
+        <tr>
+            <td>May 2025</td>
+            <td><input type='number' id='may_total' value='19'></td>
+            <td><input type='number' id='may_fixed' value='7'></td>
+            <td><input type='number' id='may_moved' value='11'></td>
+            <td><input type='number' id='may_not_repro' value='1'></td>
+            <td><input type='number' id='may_qa_hold' value='0'></td>
+        </tr>
+        <tr>
+            <td>July 2025</td>
+            <td><input type='number' id='jul_total' value='17'></td>
+            <td><input type='number' id='jul_fixed' value='5'></td>
+            <td><input type='number' id='jul_moved' value='10'></td>
+            <td><input type='number' id='jul_not_repro' value='1'></td>
+            <td><input type='number' id='jul_qa_hold' value='1'></td>
+        </tr>
+        <tr>
+            <td>Sept 2025</td>
+            <td><input type='number' id='sep_total' value='13'></td>
+            <td><input type='number' id='sep_fixed' value='6'></td>
+            <td><input type='number' id='sep_moved' value='4'></td>
+            <td><input type='number' id='sep_not_repro' value='2'></td>
+            <td><input type='number' id='sep_qa_hold' value='0'></td>
+        </tr>
+    </table>
+    <br>
+    <button onclick='updateChart()' style='padding:10px 20px; font-size:16px;'>Generate Chart</button>
+    <div id='chart' style='margin-top:30px;'></div>
+    <script>
+        function updateChart() {
+            const releases = ['Feb 2025', 'May 2025', 'July 2025', 'Sept 2025'];
+            const categories = ['Total Reported', 'Fixed', 'Moved', 'Not Reproducible', 'QA on Hold'];
+            const inputs = [
+                ['feb_total', 'may_total', 'jul_total', 'sep_total'],
+                ['feb_fixed', 'may_fixed', 'jul_fixed', 'sep_fixed'],
+                ['feb_moved', 'may_moved', 'jul_moved', 'sep_moved'],
+                ['feb_not_repro', 'may_not_repro', 'jul_not_repro', 'sep_not_repro'],
+                ['feb_qa_hold', 'may_qa_hold', 'jul_qa_hold', 'sep_qa_hold']
+            ];
+
+            const data = inputs.map((ids, i) => {
+                return {
+                    x: releases,
+                    y: ids.map(id => parseInt(document.getElementById(id).value)),
+                    name: categories[i],
+                    type: 'bar'
+                };
+            });
+
+            const layout = {
+                barmode: 'group',
+                title: 'Regression Issue Breakdown by Release'
+            };
+
+            Plotly.newPlot('chart', data, layout);
+        }
+    </script>
+</body>
+</html>
